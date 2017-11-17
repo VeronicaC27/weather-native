@@ -35,15 +35,27 @@ export default class App extends React.Component {
       forecast: []
     };
   }
+  locationInputChanged(text) {
+    this.setState({
+      locationInputText: text
+    });
+  }
   async getWeather() {
     // Call the geocoding and weather API, get back a location and weather object
     const response = await geocodeAndGetWeather(this.state.locationInputText);
 
     // Try the following, to see what they contain
-    // console.log response.location
-    // console.log response.weather
+    console.log(response.location);
+    console.log(response.weather);
 
     // manipulate state
+    this.setState({
+      locationText: response.location,
+      currentTemperature: Math.round(response.weather.currently.temperature),
+      currentSummary: response.weather.currently.summary,
+      currentIcon: icon(response.weather.currently.icon),
+      forecast: response.weather.daily.data
+    });
   }
   render() {
     // Three Views inside the parent view
@@ -55,14 +67,38 @@ export default class App extends React.Component {
     // Refer to styles.js to see styles that are already provided.
     let forecast = [];
 
+    if (this.state.forecast.length > 0) {
+      for(let i=1; i<=5; i++) {
+        forecast.push(
+          <View key={i} style={styles.forecastDay}>
+            <Text style={styles.forecastIcon}>
+              <Icon name={icon(this.state.forecast[i].icon)} size={40} />
+            </Text>
+            <Text style={styles.forecastTemperature}>
+              {Math.round(this.state.forecast[i].apparentTemperatureHigh)}
+            </Text>
+          </View>
+        );
+      }
+    }
+
     return (
       <View style={styles.container}>
         <View>
-          {/* TextInput and Button */}
+          <TextInput style={styles.inputBox}
+                     placeholder="Enter a city"
+                     onChangeText={(text) => this.locationInputChanged(text)} />
+          <Button onPress={() => this.getWeather()}
+                  title="Get the weather!" />
         </View>
         <View style={styles.currentWeather}>
           {/* Current weather conditions */}
-          <Text>Put something here.</Text>
+          <Text style={styles.currentIcon}>
+            {this.state.currentIcon && <Icon name={this.state.currentIcon} size={100} color="#181818" /> }
+          </Text>
+          <Text style={styles.locationText}>{this.state.locationText}</Text>
+          <Text style={styles.currentTemperature}>{this.state.currentTemperature}</Text>
+          <Text style={styles.currentSummary}>{this.state.currentSummary}</Text>
         </View>
         <View style={styles.forecast}>
           {forecast}
