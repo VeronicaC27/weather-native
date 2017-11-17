@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   currentWeather: {
     alignItems: 'center'
   },
-  // Icon for current weather icon
+  // The Icon can't be used by itself, it needs to be wrapped in a Text component.
+  // This is that component.
   currentIcon: {
     marginBottom: 20
   },
