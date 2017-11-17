@@ -1,3 +1,12 @@
+// Weather Native
+//
+// 1. Create a TextInput to enter a city name. Hook up an event handler to store
+//    the value inputted into this.state.locationInputText (remember BookFace?)
+// 2. Create a button (e.g. "Get the weather!") that, when pressed, calls
+//    the getWeather() function.
+// 3. Retrieve the values from the API call, and create the UI components
+//    necessary to display them on-screen.
+
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInput, Button, StyleSheet, Text, View } from 'react-native';
@@ -18,8 +27,9 @@ export default class App extends React.Component {
   }
   async getWeather() {
     // Call the geocoding and weather API, get back a location and weather object
-    const response = await geocodeAndGetWeather(this.state.locationText);
+    const response = await geocodeAndGetWeather(this.state.locationInputText);
 
+    // Try the following, to see what they contain
     // console.log response.location
     // console.log response.weather
 
@@ -31,6 +41,8 @@ export default class App extends React.Component {
     // 2. Current weather conditions (styles provided with currentIcon, locationText,
     //    currentTemperature, currentSummary)
     // 3. Forecast (forecastDay, forecastIcon, forecastTemperature)
+    //
+    // Refer to styles.js to see styles that are already provided.
     let forecast = [];
 
     return (
@@ -40,6 +52,7 @@ export default class App extends React.Component {
         </View>
         <View style={styles.currentWeather}>
           {/* Current weather conditions */}
+          {this.state.currentIcon && <Icon name={this.state.currentIcon} size={100} color="#181818" />}
           <Text>Put something here.</Text>
         </View>
         <View style={styles.forecast}>
