@@ -5,7 +5,17 @@
 // 2. Create a button (e.g. "Get the weather!") that, when pressed, calls
 //    the getWeather() function.
 // 3. Retrieve the values from the API call, and create the UI components
-//    necessary to display them on-screen.
+//    necessary to display them on-screen. Succesfully implement the current
+//    weather first, then the forecast.
+//
+// HINTS
+// - Use the this.state.forecast array as provided, to hold the entirety of what comes
+//   back from the Dark Sky API, i.e. response.weather.daily.data. Loop through
+//   that to create the forecast on-screen.
+// - Occasionally, you'll want to conditionally display a component, i.e. only
+//   when it actually has a value to show. You'll need to do this with the
+//   current icon, like this:
+//   {this.state.currentIcon && <Icon name={this.state.currentIcon} size={100} color="#181818" /> }
 
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -52,7 +62,6 @@ export default class App extends React.Component {
         </View>
         <View style={styles.currentWeather}>
           {/* Current weather conditions */}
-          {this.state.currentIcon && <Icon name={this.state.currentIcon} size={100} color="#181818" />}
           <Text>Put something here.</Text>
         </View>
         <View style={styles.forecast}>
